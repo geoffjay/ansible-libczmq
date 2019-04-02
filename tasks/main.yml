@@ -1,0 +1,31 @@
+---
+# tasks file for ansible-libczmq
+- name: Uninstall system libczmq
+  package:
+    name:
+      - libczmq4
+      - libczmq-dev
+    state: absent
+  tags: [ "libczmq" ]
+
+- name: Clone libczmq
+  git:
+    repo: git://github.com/zeromq/czmq.git
+    dest: /usr/src/libczmq
+    force: yes
+  tags: [ "libczmq" ]
+
+- name: Build libczmq
+  shell: |
+    cd /usr/src/libczmq
+    ./autogen.sh
+    ./configure --prefix=/usr
+    make
+    make install
+    ldconfig
+  tags: [ "libczmq" ]
+
+- name: Add libczmq ldconfig file
+  copy:
+    dest: /etc/ld.so.conf.d/libczmq.conf
+    content: '/usr/lib'
