@@ -1,5 +1,7 @@
-Role Name
-=========
+libczmq
+=======
+
+[WIP] Don't use this.
 
 A brief description of the role goes here.
 
